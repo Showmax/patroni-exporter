@@ -1,0 +1,19 @@
+[Unit]
+Description=Patroni exporter
+
+[Service]
+EnvironmentFile=/etc/default/patroni-exporter
+ExecStart=/path/to/patroni_exporter.py \
+          --bind ${BIND} \
+          --port ${PORT} \
+          --address-family ${ADDRESS_FAMILY} \
+          --patroni-url ${PATRONI_URL} \
+          --timeout ${TIMEOUT} \
+          --requests-verify ${VERIFY} \
+          ${DEBUG}
+
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

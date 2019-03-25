@@ -1,0 +1,7 @@
+BIND=localhost
+PORT=9547
+ADDRESS_FAMILY=AF_INET
+PATRONI_URL=http://localhost:8008/patroni
+DEBUG=
+TIMEOUT=5
+VERIFY=true

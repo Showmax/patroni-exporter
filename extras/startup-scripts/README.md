@@ -1,0 +1,2 @@
+- `patroni-exporter.service` is an example systemd unit that can be used for starting the script. Please adjust the path to the executable.
+- `patroni-exporter.default` is a default file that ought to be copied to `/etc/default/patroni-exporter` and adjusted to the user's needs
