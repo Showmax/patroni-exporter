@@ -128,6 +128,11 @@ class PatroniCollector:
         for key, items in timestamp_mapping.items():
             for item in items:
                 if key in self.data and item in self.data[key]:
+                    # replayed_timestamp is None when cluster is fresh and
+                    # no data have been replayed on slave
+                    if self.data[key][item] is None:
+                        self.data[key].pop(item)
+                        continue
                     self.data[key][item] = self.to_timestamp(
                         self.data[key][item]
                     )
