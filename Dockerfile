@@ -1,10 +1,15 @@
-FROM  python:3.6.9-alpine3.10
+FROM  python:3.6-alpine
 
-WORKDIR /app
+# use dumb-init as container supervisor
+RUN apk add dumb-init
+
+WORKDIR "/app"
 
 COPY patroni_exporter.py .
 COPY requirements.txt .
 
-RUN pip install -r requirements.txt   
+RUN pip install \
+	--no-cache-dir \
+	-r requirements.txt   
 
-ENTRYPOINT [ "python",  "patroni_exporter.py"]
+ENTRYPOINT [ "/usr/bin/dumb-init",  "--", "/app/patroni_exporter.py" ]
