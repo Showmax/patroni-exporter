@@ -10,6 +10,6 @@ COPY requirements.txt .
 
 RUN pip install \
 	--no-cache-dir \
-	-r requirements.txt   
+	-r requirements.txt
 
 ENTRYPOINT [ "/usr/bin/dumb-init",  "--", "/app/patroni_exporter.py" ]
