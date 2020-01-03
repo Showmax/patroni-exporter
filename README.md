@@ -35,5 +35,5 @@ docker build -t patroni_exporter .
 2. Run Docker container. Don't forget to pass required commandline arguments at the end of the `run` command.
 
 ```
-docker run -d -ti patroni_exporter --port 6666 --patroni-url http://some_host_fqdn:8008/patroni --timeout 5 --debug
+docker run -d -ti patroni_exporter --port some_port --patroni-url http://some_host_fqdn:some_port/patroni --timeout 5 --debug
 ```
