@@ -54,9 +54,14 @@ class PatroniCollector:
         try:
             r = requests.get(self.url, timeout=self.timeout,
                              verify=self.requests_verify)
-            r.raise_for_status()
-            self.scrape = r.json()
-            self.status = '200 OK'
+            try:
+                if (r.status_code == 503 or r.status_code == requests.codes.ok):
+                    self.scrape = r.json()
+                    self.status = '200 OK'
+                else:
+                    r.raise_for_status()
+            except:
+                r.raise_for_status()
         except Exception as e:
             self.status = '503 Service Unavailable'
             self.scrape = {}
