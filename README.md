@@ -4,14 +4,15 @@ Provides Patroni related metrics for Prometheus.
 
 This exporter scrapes Patroni API (https://github.com/zalando/patroni) and transforms the obtained information into Prometheus-scrapable (https://prometheus.io/) format.
 
-The following commandline arguments are available:
-- port: `-p`, `--port` specifies the port it should listen at
-- bind: `-b`, `--bind` specifies the address to bind to
-- patroni url: `-u`, `--patroni-url` specifies the full to path the patroni API endpoint
-- debug: `-d`, `--debug` enables debug output
-- timeout: `-t`, `--timeout` configures the timeout for patroni API
-- address family: `-a`, `--address-family` chooses which adress family to use. Either `ipv4` (`AF_INET`) or `ipv6` (`AF_INET6`). If listening on both `ipv6` and `ipv4` is required, `AF_INET6` and a bind to '' or '::' must be used (the unfortunate side-effect is that it listens on all interfaces)
-- requests verify: `--requests-verify` Accepts `true|false`, in which case it controls whether Python's requests library verifies the server's TLS certificate. It also accepts a path to a CA bundle to use. Defaults to ``true``
+Configuration can by environment variables or commandline arguments. If both is available the value of the commandline argument is taken.
+The following configuration parameters are available:
+- port: `PATRONI_EXPORTER_PORT`, `-p`, `--port` specifies the port it should listen at
+- bind: `PATRONI_EXPORTER_BIND`, `-b`, `--bind` specifies the address to bind to
+- patroni url: `PATRONI_EXPORTER_URL`, `-u`, `--patroni-url` specifies the full to path the patroni API endpoint
+- debug: `PATRONI_EXPORTER_DEBUG`, `-d`, `--debug` enables debug output
+- timeout: `PATRONI_EXPORTER_TIMEOUT`, `-t`, `--timeout` configures the timeout for patroni API
+- address family: `PATRONI_EXPORTER_ADDRESS_FAMILY`, `-a`, `--address-family` chooses which adress family to use. Either `ipv4` (`AF_INET`) or `ipv6` (`AF_INET6`). If listening on both `ipv6` and `ipv4` is required, `AF_INET6` and a bind to '' or '::' must be used (the unfortunate side-effect is that it listens on all interfaces)
+- requests verify: `PATRONI_EXPORTER_REQUEST_VERIFY`, `--requests-verify` Accepts `true|false`, in which case it controls whether Python's requests library verifies the server's TLS certificate. It also accepts a path to a CA bundle to use. Defaults to ``true``
 
 This service also responds on the `/health` endpoint and can be monitored this way.
 

@@ -25,6 +25,7 @@ import logging
 import argparse
 import socket
 import requests
+from os import environ
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('patroni-exporter')
@@ -229,35 +230,35 @@ class PatroniExporter:
         parser.add_argument('-p', '--port',
                             dest='port',
                             type=int,
-                            default=9547,
+                            default=environ.get('PATRONI_EXPORTER_PORT', 9547),
                             help='Port to bind to')
         parser.add_argument('-b', '--bind',
                             dest='bind',
-                            default='',
+                            default=environ.get('PATRONI_EXPORTER_BIND', ''),
                             help='Interface to listen at')
         parser.add_argument('-u', '--patroni-url',
                             dest='url',
-                            default='http://localhost:8008/patroni',
+                            default=environ.get('PATRONI_EXPORTER_URL', 'http://localhost:8008/patroni'),
                             help='Patroni API url '
                                  'where to send GET requests to')
         parser.add_argument('-d', '--debug',
                             dest='debug',
                             action='store_true',
-                            default=False,
+                            default=environ.get('PATRONI_EXPORTER_DEBUG', False),
                             help='Enable debug output')
         parser.add_argument('-t', '--timeout',
-                            default=5,
+                            default=environ.get('PATRONI_EXPORTER_TIMEOUT', 5),
                             type=int,
                             dest='timeout',
                             help='Patroni API GET timeout')
         parser.add_argument('-a', '--address-family',
                             dest='address_family',
-                            default='AF_INET',
+                            default=environ.get('PATRONI_EXPORTER_ADDRESS_FAMILY', 'AF_INET'),
                             help='Socket address family. For example '
                                  '"AF_INET" for ipv4 or "AF_INET6" for ipv6')
         parser.add_argument('--requests-verify',
                             dest='requests_verify',
-                            default='true',
+                            default=environ.get('PATRONI_EXPORTER_REQUEST_VERIFY', 'true'),
                             help="""Accepts `true|false`, 
                                     in which case it controls
                                     whether requests verify the server's 
