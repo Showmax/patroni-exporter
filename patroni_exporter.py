@@ -55,8 +55,9 @@ class PatroniCollector:
         try:
             r = requests.get(self.url, timeout=self.timeout,
                              verify=self.requests_verify)
-            r.raise_for_status()
             self.scrape = r.json()
+            if not self.scrape.get('role') == 'replica':
+                r.raise_for_status()
             self.status = '200 OK'
         except Exception as e:
             self.status = '503 Service Unavailable'
