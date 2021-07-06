@@ -39,6 +39,16 @@ docker build -t patroni_exporter .
 docker run -d -ti patroni_exporter --port some_port --patroni-url http://some_host_fqdn:some_port/patroni --timeout 5 --debug
 ```
 
+## Pip package
+
+To create pip-package you need execute this command:
+
+```
+python setup.py sdist
+```
+
+If the command is successful, then the directory `dist` well be contain the `.tar.gz` pip-package.
+
 ## Known issues/limitations/workarounds
 
 - due to how Patroni replicas respond with their information, but, when compared to primary, use HTTP code 503 (Service Unavailable) to avoid being registered as write-capable endpoints on load balancers, the exporter will attempt proper parsing when the response is a JSON with key-value `{"role": "replica"}`

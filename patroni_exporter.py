@@ -18,7 +18,7 @@ from prometheus_client.core import (
 from prometheus_client.exposition import choose_encoder
 from typing import List, Any, Dict, Union, Type, ByteString, Iterable
 from urllib.parse import parse_qs, urlparse
-from wsgiref.simple_server import make_server, WSGIServer
+from wsgiref.simple_server import make_server, WSGIServer, WSGIRequestHandler
 from wsgiref.util import request_uri
 
 import logging
@@ -224,6 +224,20 @@ class PatroniExporter:
             address_family = getattr(socket, self.cmdline.address_family)
 
         return ServerClass
+    
+    def get_request_handler_class(self) -> Type['WSGIRequestHandler']:
+        """
+        Creates a WSGI request handler class with custom logger
+        """
+        class LoggingWSGIRequestHandler(WSGIRequestHandler):
+
+            def log_message(self, format, *args):
+                logger.debug("%s - - [%s] %s\n" %
+                     (self.client_address[0],
+                      self.log_date_time_string(),
+                      format%args))
+
+        return LoggingWSGIRequestHandler
 
     @staticmethod
     def parse_args() -> argparse.Namespace:
@@ -309,7 +323,8 @@ class PatroniExporter:
         httpd = make_server(self.cmdline.bind,
                             self.cmdline.port,
                             self.app,
-                            self.get_server_class())
+                            self.get_server_class(),
+                            handler_class=self.get_request_handler_class())
         httpd.serve_forever()
 
 
