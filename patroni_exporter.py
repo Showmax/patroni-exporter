@@ -285,6 +285,7 @@ class PatroniExporter:
 
         url = urlparse(request_uri(environ))
         if url.path == '/health':
+            self.collector.scrape_patroni()  # refresh collector status
             start_response(self.collector.status, [('Content-Type',
                                                     'application/json')])
             return [b'{}']
